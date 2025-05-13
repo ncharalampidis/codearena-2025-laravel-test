@@ -26,8 +26,12 @@ class PostResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('body')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('image'),
+                Forms\Components\FileUpload::make('image')
+                    ->image(),
                 Forms\Components\TextInput::make('slug')
+                    ->required(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('author', 'name')
                     ->required(),
             ]);
     }
@@ -49,6 +53,10 @@ class PostResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('author.name')
+                    ->label('Author')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
